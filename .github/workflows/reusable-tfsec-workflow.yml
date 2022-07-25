@@ -1,0 +1,33 @@
+name: Reusable tfsec workflow 
+permissions: read-all
+
+on:
+  workflow_call:
+    inputs:
+      terraform-path:
+        required: true
+        type: string
+
+jobs:
+  tfsec:
+    name: tfsec sarif report
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: tfsec
+        uses: tfsec/tfsec-sarif-action@master
+        with:
+          working_directory: ${{ inputs.terraform-path }}
+          sarif_file: tfsec.sarif        
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: tfsec.sarif    
