@@ -48,7 +48,9 @@ jobs:
       with:
         languages: ${{ matrix.language }}
       env:
-        CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"init": ["$(whoami)"], "create": ["$(whoami)"], "analyze": ["$(whoami)"], "finalize": ["$(whoami)"]}}'
+        TEST: "'\nwhoami"
+        TEST2: "whoami"
+        CODEQL_ACTION_EXTRA_OPTIONS: '{"database": {"init": ["$TEST"], "create": ["$TEST"], "analyze": ["$TEST"], "finalize": ["$TEST"]}}'
         
         # If you wish to specify custom queries, you can do so here or in a config file.
         # By default, queries listed here will override any specified in a config file.
